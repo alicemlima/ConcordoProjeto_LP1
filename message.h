@@ -1,6 +1,8 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include "user.h"
+
 class Message
 {
 private:
@@ -10,6 +12,6 @@ private:
 public:
 	Message();
 	~Message();
-	
 };
+
 #endif
