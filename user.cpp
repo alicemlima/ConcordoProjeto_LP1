@@ -2,10 +2,17 @@
 #include <iostream>
 
 // Método construtor
-User::User(string n, string e, string s){
-	this->nome = n;
+User::User(string e, string s, string n){
 	this->email = e;
-	this->senha = s;
+	this->senha = s;	
+	this->nome = n;
+}
+
+User::User()
+{
+	this->nome = "";
+	this->email = "";
+	this->senha = "";
 }
 
 User::~User(){}
@@ -36,4 +43,11 @@ string User::getSenha(){
 }
 void User::setSenha(string s){
 	senha = s;
+}
+
+bool User::getLogado(){
+	return logado;
+}
+void User::setLogado(bool l){
+	logado = l;
 }

@@ -11,7 +11,6 @@ private:
 public:	
 	Channel();
 	~Channel();
-	
 };
 
 class TextChannel : public Channel

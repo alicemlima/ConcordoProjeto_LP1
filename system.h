@@ -7,12 +7,14 @@
 #include "server.h"
 #include "channel.h"
 
+using namespace std;
+
 class System
 {
 private:
-	// Vetores dos usuários e servidores que estão no sistema
-	std::vector<string> usersVec;
-	std::vector<string> serversVec;
+	// Vetores dos usuários que estão no sistema
+	std::vector<User*> usersVec;
+	std::vector<Server*> serversVec;
 	// Mapa/Dicionário para gurdar e associar emails e senhas
 	std::map<string, string> login_senha;
 	// O usuário atualmente logado no sistema 
@@ -25,13 +27,18 @@ public:
 	System();
 	~System();
 
+	// Comando para entrar do sistema
+	void init();
 	// Comando para sair do sistema
-	bool quit(); // exibir a mensagem “Saindo do Concordo”
+	void quit(string n); // exibir a mensagem “Saindo do Concordo”
 	// Comando para criar usuário
-	bool createUser(string e, string s, string n); // Pode ser um booleano? Exibir “Usuário já existe!”, “Usuário criado”
+	bool createUser(string e, string s, string n);
 	// Comando para entra/logar no sistema
-	void login(string e, string s); // Exibir “Logado como julio.melo@imd.ufrn.br”, “Senha ou usuário inválidos!”
+	void login(string e, string s);
 	bool searchUser(string e);
+	void logado();
+	// Listar servidores
+	void listServers();
 };
 
 #endif
