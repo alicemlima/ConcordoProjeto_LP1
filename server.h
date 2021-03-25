@@ -22,6 +22,7 @@ public:
 	Server(string ns);
 	~Server();
 	
+	int getUsuariodonoid();
 	string getNameserver();
 	void setNameserver(string ns);
 
@@ -31,21 +32,9 @@ public:
 	string getInvitecode();
 	void setInvitecode(string in);
 
-	// Comando desconectar/sair do servidor
-	void disconnect();
-	// Comando criar servidor
-	// retorna um servidor para ser armazenado no sistema
-	Server* createServer(string ns);
-	// Mudar descrição do servidor
-	void setServer_desc(string ns, string d);
-	// Mudar o código de convite para o servidor
-	void setServer_invite_code(string ns, string code);
-	// Remover Servidor
-	void removeServer(string ns);
-	// Entrar em um servidor
-	void enterServer(string ns);
-
-	// Server returnServer(string ns);
+	void addUser(int id);
+	void removeUser(int id);
+	// int listParticipants();
 };
 
 #endif

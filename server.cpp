@@ -5,6 +5,13 @@ Server::Server(string ns)
     this->nameServer = ns;
     this->descript = "Adione uma descrição";
     this->usuarioDonoId = User::userLog->getId();
+    this->inviteCode = "";
+    participantIDs.push_back(usuarioDonoId);
+}
+
+int Server::getUsuariodonoid()
+{
+    return usuarioDonoId;
 }
 
 string Server::getNameserver()
@@ -34,25 +41,41 @@ void Server::setInvitecode(string in)
     inviteCode = in;
 }
 
-void Server::disconnect()
+
+void Server::addUser(int id)
 {
-	cout << User::userLog->getNome();
-    User::userLog = NULL;
-	cout << "Saindo do Concordo!";    
+    if (participantIDs.empty())
+    {
+        participantIDs.push_back(id);
+    }
+    else
+    {
+        for (int i = 0; i < (participantIDs.size()); i++)
+        {
+            if (participantIDs[i] == id)
+            {
+                break;
+            }
+        }
+        participantIDs.push_back(id);
+    }
 }
 
-Server* Server::createServer(string ns)
+void Server::removeUser(int id)
 {
-    Server* newServer = new Server(ns);
-    return newServer;
+    for (int i = 0; i < (participantIDs.size()); i++)
+	{
+		if (participantIDs[i] == id)
+		{
+			participantIDs.erase(participantIDs.begin() + i);
+		}
+	}
 }
 
-void Server::enterServer(string ns)
-{
-
-}
-
-// Server Server::returnServer(string ns)
+// int Server::listParticipants()
 // {
-
+//     for (auto itr:participantIDs)
+//     {
+//         cout << itr << endl;
+//     }
 // }
