@@ -2,27 +2,25 @@
 #define CHANNEL_H
 
 #include "message.h"
+#include "channeltext.h"
+#include "channelvoice.h"
+
 #include <vector>
 
 class Channel
 {
-private:
-	string nome;
+protected:
+	string nameChannel;
+	string type;
 public:	
-	Channel();
+	Channel(string nc, string tp);
 	~Channel();
-};
 
-class TextChannel : public Channel
-{
-private:
-	std::vector<Message> messages;
-};
+	string getNamechannel();
+	void setNamechannel(string nc);
 
-class ChannelVoice : public Channel
-{
-private:
-	Message LastMessage;
+	string getType();
+	void setType(string type);
 };
 
 #endif	

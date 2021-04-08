@@ -2,56 +2,70 @@
 
 System::System()
 {
-	cout << "Olá!! Seja bem vindo(a) ao Concordo." << endl;
+	cout << "\nOlá!! Seja bem vindo(a) ao Concordo." << endl;
 	this->userCurrent = NULL;
 	this->serverCurrent = NULL;
 	this->channelCurrent = NULL;
-	// init();
+	this->on = true;
+}
+
+void System::setOn()
+{
+	on = false;
+}
+
+bool System::getOn()
+{
+	return on;
 }
 
 void System::init()
 {
-	string comando, e, s, n;
-	cout << "Digite o comando desejado: ";
+	string e, s, n, comando;
 	cin >> comando;
-
+	
 	if (comando == "createUser")
 	{
+		cout << "Digite o email, a senha e o nome: ";
 		cin >> e >> s >> n;
 		createUser(e, s, n);
 	}
 	else if (comando == "login")
 	{
+		cout << "Digite o email e a senha: ";
 		cin >> e >> s;
-		login(e, s);
+
+		if (login(e, s) == true)
+		{
+			string comando_2;
+			do
+			{
+				logado();
+			} while (userCurrent->getLogado() == true);
+		}
+		else
+		{
+			cout << "Tente novamente" << endl;
+		}
 	}
 	else if (comando == "quit")
 	{
-		cin >> n;
-		quit(n);
+		quit();
 	}
 }
 
-// Ainda falta implementar um forma de fechar o sistema
-void System::quit(string n)
+void System::quit()
 {
-	for (int i = 0; i < (usersVec.size()); i++)
-	{
-		if (usersVec[i]->getNome() == n)
-		{
-			usersVec[i]->setLogado(true);
-			break;
-		}
-	}
-	cout << "Saindo do Concordo!";
+	cout << "\nSaindo do Concordo!" << endl;
+	setOn();
 }
 
 bool System::createUser(string e, string s, string n)
 {
 	if (searchUser(n) == true)
 	{
-		// Não pode existir dois usuário com o mesmo nome ou emails
-		cout << "Usuário já cadastrado!" << endl;
+		// Não pode existir dois usuário com o mesmo nome ou email
+		cout << "\nUsuário já cadastrado \'" << n << "\'!" << endl;
 		return false;
 	}
 	else
@@ -60,37 +74,33 @@ bool System::createUser(string e, string s, string n)
 		usersVec.push_back(newUser);
 		login_senha.insert(pair<string,string>(e, s));
 		newUser->setId(usersVec.size());
-		cout << "Usuário criado!" <<  endl;
+		cout << "\nUsuário \'" << n << "\' criado!" <<  endl;
 	}
 	return true;
 }
 
-void System::login(string e, string s)
+bool System::login(string e, string s)
 {
 	for (auto itr:login_senha)
 	{
 		if (itr.first == e && itr.second == s)
 		{
-			for (int i = 0; i < (usersVec.size()); i++)
+			int aux_vec = usersVec.size();
+			for (int i = 0; i < aux_vec; i++)
 			{
 				if (usersVec[i]->getEmail() == e)
 				{
 					usersVec[i]->setLogado(true);
 					userCurrent = usersVec[i];
 					User::userLog = userCurrent;
-					cout << "Logado como " << userCurrent->getNome() << "!" << endl;
-					logado();
-					break; // É necessário esse "break?"
+					cout << "\n Logado como " << userCurrent->getNome() << "!" << endl;
+					return true;
 				}				
 			}
-			break;
-		}
-		else if (itr.first != e || itr.second != s)
-		{
-			cout << "Senha ou usuário inválidos!!" << endl;
-			break;
 		}
 	}
+	cout << "\nSenha ou usuário inválidos!!" << endl;
+	return false;
 }
 
 bool System::searchUser(string n)
@@ -107,44 +117,65 @@ bool System::searchUser(string n)
 
 void System::logado()
 {
-	while (userCurrent->getLogado() == true)
+	string comando_2;
+	cin >> comando_2;
+
+	if (comando_2 == "createServer")
 	{
-		string comando = " ";
-		cout << "Digite o comando desejado: ";
-		cin >> comando;
+		string nomeServer;
+		cin >> nomeServer;
+		createServer(nomeServer);
+	}
+	else if (comando_2 == "enterServer")
+	{
+		string nomeServer, code;
+		cin >> nomeServer >> code;
 		
-		if (comando == "createServer")
-		{
-			string nomeServer;
-			cin >> nomeServer;
+		enterServer(nomeServer, code);
+	}
+	else if (comando_2 == "listServers")
+	{
+		listServers();
+	}
+	else if (comando_2 == "disconnect")
+	{
+		disconnect();
+	}
+	else if (comando_2 == "setServer_desc")
+	{
+		string nomeServer, desc;
+		cin >> nomeServer >> desc;
 
-			createServer(nomeServer);
-			break;
-		}
-		else if (comando == "enterServer")
-		{
-			string nomeServer;
-			cin >> nomeServer;
-			
-			enterServer(nomeServer);
-		}
-		else if (comando == "listServers")
-		{
-			listServers();
-		}
-		else if (comando == "disconnect")
-		{
-			disconnect();
-		}		
-	}		
+		setServer_desc(nomeServer, desc);
+	}
+	else if (comando_2 == "setServer_invite_code")
+	{
+		string nomeServer, code;
+		cin >> nomeServer >> code;
+
+		setServer_invite_code(nomeServer, code);
+	}
+	else if (comando_2 == "removeServer")
+	{
+		string nomeServer;
+		cin >> nomeServer;
+
+		removeServer(nomeServer);
+	}
+	else if (comando_2 == "leaveServer")
+	{
+		leaveServer();
+	}
+	else if (comando_2 == "listUsers")
+	{
+		listUsers();
+	}
 }
-
 
  void System::disconnect()
 {
-	cout << User::userLog->getNome();
+	cout << "Saindo do Concordo!" << endl;
     User::userLog = NULL;
-	cout << "Saindo do Concordo!";
 	userCurrent->setLogado(false);
 }
 
@@ -157,6 +188,8 @@ void System::createServer(string ns)
 		Server* newServer = new Server(ns);
 		serversVec.push_back(newServer);
 		serverCurrent = newServer;
+		
+		cout << "\nServidor \'" << ns << "\' criado com sucesso!" << endl;
 	}
 	else
 	{
@@ -201,6 +234,7 @@ void System::enterServer(string ns, string code)
 			aux->addUser(userCurrent->getId());
 			serverCurrent = aux;
 			cout << "Entrou no servidor com sucesso!" << endl;
+
 		}
 		else
 		{
@@ -242,7 +276,7 @@ void System::setServer_desc(string ns, string d)
 		if (aux->getUsuariodonoid() == userCurrent->getId())
 		{
 			aux->setDescript(d);
-			cout << "Descrição do servidor \'" << ns << "\'  modificada!" << endl;
+			cout << "Descrição do servidor \'" << ns << "\' modificada!" << endl;
 		}
 		else
 		{
@@ -297,6 +331,7 @@ void System::setServer_invite_code(string ns)
 	}
 }
 
+// Lista servidores - retorna o nome do servido, a descrição e se é aberto ou fechado
 void System::listServers()
 {
 	if (serversVec.empty())
@@ -309,7 +344,7 @@ void System::listServers()
 		{
 			cout << itr->getNameserver() << endl;
 			cout << itr->getDescript() << endl;
-			if (itr->getInvitecode() != "")
+			if (itr->getInvitecode() == "")
 			{
 				cout << "Servidor aberto" << endl;
 			}
@@ -329,12 +364,14 @@ void System::removeServer(string ns)
 		Server* aux = searchServer(ns);
 		if (aux->getUsuariodonoid() == userCurrent->getId())
 		{
-			for (int i = 0; i < (usersVec.size()); i++)
+			int aux_vec = usersVec.size();
+			for (int i = 0; i < aux_vec; i++)
 			{
 				if (serversVec[i]->getNameserver() == ns)
 				{
 					serversVec.erase(serversVec.begin() + i);
 					cout << "Servidor \'" << ns << "\' removido!" << endl;
+					break;
 				}
 			}
 		}
@@ -349,14 +386,25 @@ void System::removeServer(string ns)
 	}	
 }
 
-// Esses comandos não serão necessário (adicionar os argumentos no loop0
 void System::leaveServer()
 {
+	cout << "\nSaindo do servidor \'" << serverCurrent->getNameserver() << "\'!" << endl;
 	serverCurrent->removeUser(User::userLog->getId());
 	serverCurrent = NULL;
 }
 
-// void System::listUsers()
-// {
-// 	serverCurrent->
-// }
+void System::listUsers()
+{
+	std::vector <int> aux_vec;
+	aux_vec = serverCurrent->listParticipants();
+	for (auto itr:aux_vec)
+	{
+		for (auto itr_2:usersVec)
+		{
+			if (itr == itr_2->getId())
+			{
+				cout << itr_2->getNome() << endl;
+			}
+		}
+	}
+}

@@ -1,0 +1,41 @@
+createUser
+Alice@gmail.com 123478 Alice
+createUser
+Adriana@gmail.com 5522156 Adriana
+createUser
+Mariana@gmail.com 85884669 Mariana
+createUser
+Nildo@gmail.com 6545235 Nildo
+login
+Nildo@gmail.com 6545xk
+login
+Alice@gmail.com 123478
+createServer
+Alice_casa
+createServer
+Alice_trabalho
+setServer_desc
+Alice_casa Alice_e_família
+setServer_invite_code
+Alice_casa familiaunida
+enterServer
+Alice_casa
+removeServer
+Alice_trabalho
+listServers
+listUsers
+createServer
+Alice_amigos
+setServer_invite_code
+Alice_casa
+listServers
+disconnect
+login
+Mariana@gmail.com 85884669
+enterServer
+Alice_casa 
+enterServer
+Alice_amigos
+listServers
+disconnect
+quit
