@@ -176,7 +176,6 @@ void Server::listChannel()
     }
 }
 
-//FALTA TERMINAR
 void Server::enterChannel(string nc)
 {
     if (searchChannel(nc) == true)
@@ -185,8 +184,7 @@ void Server::enterChannel(string nc)
         {
             if (itr->getNamechannel() == nc)
             {
-
-                //channelCurrent = itr;
+                Channel::channelLog = itr;
             }
         }
     }
@@ -198,6 +196,6 @@ void Server::enterChannel(string nc)
 
 void Server::leaveChannel()
 {
-    // this->channelCurrent = "";
-    // cout << "Saindo do canal \'" << this->getNameserver() << "\'!" << endl;
+    Channel::channelLog = NULL;
+    cout << "Saindo do canal \'" << this->getNameserver() << "\'!" << endl;
 }

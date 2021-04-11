@@ -16,6 +16,8 @@ public:
 	Channel(string nc, string tp);
 	~Channel();
 
+	static Channel* channelLog;
+
 	string getNamechannel();
 	void setNamechannel(string nc);
 
@@ -47,4 +49,4 @@ public:
 	void listMessages();
 };
 
-#endif	
+#endif

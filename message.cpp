@@ -46,4 +46,8 @@ string Message::systemTime()
     local=localtime(&t);
 
     strftime(buffer,20,"< %D - %R >",local);
+
+    string tmp_string(buffer);
+
+    return tmp_string;
 }

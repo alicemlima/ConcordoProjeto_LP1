@@ -5,7 +5,7 @@ System::System()
 	cout << "\nOlá!! Seja bem vindo(a) ao Concordo." << endl;
 	this->userCurrent = NULL;
 	this->serverCurrent = NULL;
-	this->channelCurrent = NULL;
+	this->channelCurrent = Channel::channelLog;
 	this->on = true;
 }
 

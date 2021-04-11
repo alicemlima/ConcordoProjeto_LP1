@@ -3,6 +3,7 @@
 using namespace std;
 
 User* User::userLog;
+Channel* Channel::channelLog;
 
 int main(int argc, char const *argv[])
 {
