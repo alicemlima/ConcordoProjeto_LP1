@@ -101,12 +101,12 @@ void Server::createChannel(string nc, string tp)
     {
         if (tp == "voz")
         {
-            ChannelVoice* newChannelvoice = new ChannelVoice(nc);
+            ChannelVoice* newChannelvoice = new ChannelVoice(nc, tp);
             channels.push_back(newChannelvoice);
         }
         else if (tp == "texto")
         {
-            ChannelText* newChanneltext = new ChannelText(nc);
+            ChannelText* newChanneltext = new ChannelText(nc, tp);
             channels.push_back(newChanneltext);
         }
     }
@@ -118,12 +118,12 @@ void Server::createChannel(string nc, string tp)
             {
                 if (itr->getType() == "voz" && tp == "texto")
                 {
-                    ChannelText* newChanneltext = new ChannelText(nc);
+                    ChannelText* newChanneltext = new ChannelText(nc, tp);
                     channels.push_back(newChanneltext);
                 }
                 else if (itr->getType() == "texto" && tp == "voz")
                 {
-                    ChannelVoice* newChannelvoice = new ChannelVoice(nc);
+                    ChannelVoice* newChannelvoice = new ChannelVoice(nc, tp);
                     channels.push_back(newChannelvoice);
                 }
                 else
@@ -137,13 +137,67 @@ void Server::createChannel(string nc, string tp)
     {
         if (tp == "voz")
         {
-            ChannelVoice* newChannelvoice = new ChannelVoice(nc);
+            ChannelVoice* newChannelvoice = new ChannelVoice(nc, tp);
             channels.push_back(newChannelvoice);
         }
-        else if (tp == "texto")
+        else if (tp == "text o")
         {
-            ChannelText* newChanneltext = new ChannelText(nc);
+            ChannelText* newChanneltext = new ChannelText(nc, tp);
             channels.push_back(newChanneltext);
         }
     }
+}
+
+void Server::listChannel()
+{
+    if (channels.empty())
+    {
+        cout << "Você não possui Canais, crie ou entre em um!" << endl;
+    }
+    else 
+    {
+        cout << "\n#canais de texto" << endl;
+        for (auto itr:channels)
+        {
+            if (itr->getType() == "texto")
+            {
+                cout << itr->getNamechannel() << endl;
+            }
+        }
+        cout << "\n#canais de voz" << endl;
+        for (auto itr:channels)
+        {
+            if (itr->getType() == "Voz")
+            {
+                cout << itr->getNamechannel() << endl;
+            }
+        
+        }
+    }
+}
+
+//FALTA TERMINAR
+void Server::enterChannel(string nc)
+{
+    if (searchChannel(nc) == true)
+    {
+        for (auto itr:channels)
+        {
+            if (itr->getNamechannel() == nc)
+            {
+
+                //channelCurrent = itr;
+            }
+        }
+    }
+    else
+    {
+        cout << "\nCanal \'" << nc << "\' não existe!" << endl;
+    }
+}
+
+void Server::leaveChannel()
+{
+    // this->channelCurrent = "";
+    // cout << "Saindo do canal \'" << this->getNameserver() << "\'!" << endl;
 }

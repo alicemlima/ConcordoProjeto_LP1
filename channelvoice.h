@@ -1,15 +1,9 @@
-#ifndef CHANNEL_VOICE_H
-#define CHANNEL_VOICE_H
+// #ifndef CHANNEL_VOICE_H
+// #define CHANNEL_VOICE_H
 
-#include "channel.h"
+// #include "channel.h"
 
-class Channelvoice : public Channel
-{
-private:
-	Message LastMessage;
-public:
-	// Channelvoice(string nc);
-	// ~Channelvoice();
-};
+// channeltext.o: channeltext.cpp channeltext.h
+// 	g++ -c channeltext.cpp -ansi -pedantic -O0  -std=c++11 -g
 
-#endif
+// #endif

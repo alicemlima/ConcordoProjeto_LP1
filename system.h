@@ -87,6 +87,8 @@ public:
 
 	// Verifica se um servidor existe
 	Server* searchServer(string ns);
+
+	void serverRun();
 };
 
 #endif

@@ -50,13 +50,18 @@ public:
 	void createChannel(string nc, string tp);
 
 	//Listar Canais do servidor
-	void ListChannel();
+	void listChannel();
 
 	// Entra em um canal do servidor
 	void enterChannel(string nc);
 
 	// Sair de um canal do servidor
 	void leaveChannel();
+
+	// Comandos gestão de mensagens
+	void sendMessage(string ms);
+
+	void listMessages();
 };
 
 #endif

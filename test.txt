@@ -14,28 +14,8 @@ createServer
 Alice_casa
 createServer
 Alice_trabalho
-setServer_desc
-Alice_casa Alice_e_família
-setServer_invite_code
-Alice_casa familiaunida
+listServers
 enterServer
 Alice_casa
-removeServer
-Alice_trabalho
-listServers
 listUsers
-createServer
-Alice_amigos
-setServer_invite_code
-Alice_casa
-listServers
-disconnect
-login
-Mariana@gmail.com 85884669
-enterServer
-Alice_casa 
-enterServer
-Alice_amigos
-listServers
-disconnect
-quit
+leaveServer

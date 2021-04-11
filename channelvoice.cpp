@@ -1,4 +1,4 @@
-#include "channelvoice.h"
+// #include "channelvoice.h"
 
 // Channelvoice::Channelvoice(string nc)
 // {
