@@ -62,6 +62,8 @@ public:
 	void sendMessage(string ms);
 
 	void listMessages();
+
+	void initServer();
 };
 
 #endif

@@ -103,11 +103,13 @@ void Server::createChannel(string nc, string tp)
         {
             ChannelVoice* newChannelvoice = new ChannelVoice(nc, tp);
             channels.push_back(newChannelvoice);
+            cout << "\n-> Canal de Voz \'" << nc << "\' criado!" << endl;
         }
         else if (tp == "texto")
         {
             ChannelText* newChanneltext = new ChannelText(nc, tp);
             channels.push_back(newChanneltext);
+            cout << "\n-> Canal de texto \'" << nc << "\' criado!" << endl;
         }
     }
     else if (searchChannel(nc) == true)
@@ -120,11 +122,13 @@ void Server::createChannel(string nc, string tp)
                 {
                     ChannelText* newChanneltext = new ChannelText(nc, tp);
                     channels.push_back(newChanneltext);
+                    cout << "\n-> Canal de texto \'" << nc << "\' criado!" << endl;
                 }
                 else if (itr->getType() == "texto" && tp == "voz")
                 {
                     ChannelVoice* newChannelvoice = new ChannelVoice(nc, tp);
                     channels.push_back(newChannelvoice);
+                    cout << "\n-> Canal de Voz \'" << nc << "\' criado!" << endl;
                 }
                 else
                 {
@@ -139,11 +143,13 @@ void Server::createChannel(string nc, string tp)
         {
             ChannelVoice* newChannelvoice = new ChannelVoice(nc, tp);
             channels.push_back(newChannelvoice);
+            cout << "\n-> Canal de Voz \'" << nc << "\' criado!" << endl;
         }
         else if (tp == "text o")
         {
             ChannelText* newChanneltext = new ChannelText(nc, tp);
             channels.push_back(newChanneltext);
+            cout << "\n-> Canal de texto \'" << nc << "\' criado!" << endl;
         }
     }
 }
@@ -198,4 +204,30 @@ void Server::leaveChannel()
 {
     Channel::channelLog = NULL;
     cout << "Saindo do canal \'" << this->getNameserver() << "\'!" << endl;
+}
+
+void Server::initServer()
+{
+    string comando;
+    cin >> comando;
+    if (comando == "createChannel")
+    {
+        string channelname, channeltype;
+        cin >> channelname >> channeltype;
+        createChannel(channelname, channeltype);
+    }
+    else if (comando == "listChannel")
+    {
+        listChannel();
+    }
+    else if (comando == "enterChannel")
+    {
+        string channelname;
+        cin >> channelname;
+        enterChannel(channelname);
+    }
+    else if (comando == "leaveChannel")
+    {
+        leaveChannel();
+    }
 }

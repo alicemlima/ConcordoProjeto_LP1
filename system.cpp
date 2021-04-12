@@ -75,7 +75,7 @@ bool System::createUser(string e, string s, string n)
 		usersVec.push_back(newUser);
 		login_senha.insert(pair<string,string>(e, s));
 		newUser->setId(usersVec.size());
-		cout << "-> Usuário \'" << n << "\' criado!" <<  endl;
+		cout << "\n-> Usuário \'" << n << "\' criado!" <<  endl;
 	}
 	return true;
 }
@@ -94,13 +94,13 @@ bool System::login(string e, string s)
 					usersVec[i]->setLogado(true);
 					userCurrent = usersVec[i];
 					User::userLog = userCurrent;
-					cout << "-> Logado como " << userCurrent->getNome() << "!" << endl;
+					cout << "\n-> Logado como " << userCurrent->getNome() << "!" << endl;
 					return true;
 				}				
 			}
 		}
 	}
-	cout << "Senha ou usuário inválidos!" << endl;
+	cout << "\nSenha ou usuário inválidos!" << endl;
 	return false;
 }
 
@@ -172,14 +172,13 @@ void System::logado()
 	}
 	else if (comando_2 == "listUsers")
 	{
-		cout << "ENTROU!!!!!" << endl; // teste
 		listUsers();
 	}
 }
 
  void System::disconnect()
 {
-	cout << "-> " << userCurrent->getNome() << " saiu!" << endl;
+	cout << "\n-> " << userCurrent->getNome() << " saiu!" << endl;
     User::userLog = NULL;
 	userCurrent->setLogado(false);
 }
@@ -194,11 +193,11 @@ void System::createServer(string ns)
 		serversVec.push_back(newServer);
 		serverCurrent = newServer;
 		
-		cout << "-> Servidor \'" << ns << "\' criado com sucesso!" << endl;
+		cout << "\n-> Servidor \'" << ns << "\' criado com sucesso!" << endl;
 	}
 	else
 	{
-		cout << "Servidor com esse nome já existe!" << endl;
+		cout << "\nServidor com esse nome já existe!" << endl;
 	}
 }
 
@@ -212,19 +211,19 @@ void System::enterServer(string ns)
 			aux->addUser(userCurrent->getId());
 			serverCurrent = aux;
 			cout << "-> Entrou no servidor \'" << serverCurrent->getNameserver() << "\' com sucesso!" << endl;
-			// do
-			// {
-			// 	serverRun();
-			// } while (serverCurrent->getNameserver() == ns);
+			do
+			{
+				serverCurrent->initServer();
+			} while (serverCurrent->getNameserver() == ns);
 		}
 		else if (aux->getUsuariodonoid() == User::userLog->getId())
 		{
 			serverCurrent = aux;
 			cout << "-> Entrou no servidor \'" << serverCurrent->getNameserver() << "\' com sucesso!" << endl;
-			// do
-			// {
-			// 	serverRun();
-			// } while (serverCurrent->getNameserver() == ns);
+			do
+			{
+				
+			} while (serverCurrent->getNameserver() == ns);
 		}
 		else
 		{
@@ -247,12 +246,10 @@ void System::enterServer(string ns, string code)
 			aux->addUser(userCurrent->getId());
 			serverCurrent = aux;
 			cout << "-> Entrou no servidor \'" << serverCurrent->getNameserver() << "\' com sucesso!" << endl;
-			// do
-			// {
-			// 	cout << "-> Entrou no loop!" << endl;
-
-			// 	serverRun();
-			// } while (serverCurrent != NULL);
+			do
+			{
+				serverCurrent->initServer();
+			} while (serverCurrent->getNameserver() == ns);
 		}
 		else
 		{
@@ -428,6 +425,8 @@ void System::listUsers()
 	}
 }
 
-void System::serverRun()
-{
-}
+// void System::serverRun()
+// {
+// 	cout << "-> Entrou no serverRun!" << endl;
+// 	serverCurrent->initServer();
+// }

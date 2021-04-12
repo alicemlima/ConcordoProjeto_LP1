@@ -27,6 +27,8 @@ private:
 public:
 	System();
 	~System();
+	
+	static System* concor;
 
 	// Muda o estado do servidor para não funcionando
 	void setOn();
@@ -88,7 +90,7 @@ public:
 	// Verifica se um servidor existe
 	Server* searchServer(string ns);
 
-	void serverRun();
+	// void serverRun();
 };
 
 #endif

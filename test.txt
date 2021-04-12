@@ -14,8 +14,9 @@ createServer
 Alice_casa
 createServer
 Alice_trabalho
-listServers
 enterServer
 Alice_casa
-listUsers
-leaveServer
+nada
+createChannel
+Canal_Alice texto
+leaveChannel
