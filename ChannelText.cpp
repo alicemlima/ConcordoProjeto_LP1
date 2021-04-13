@@ -1,42 +1,44 @@
-#include "channelvoice.h"
+#include "ChannelText.h"
 
-ChannelVoice::ChannelVoice(string nc, string tp) : Channel(nc, tp)
+ChannelText::ChannelText(string nc, string tp) : Channel(nc, tp)
 {
-    LastMessage = NULL;
     this->out = true;
 }
 
-ChannelVoice::~ChannelVoice(){}
+ChannelText::~ChannelText(){}
 
-void ChannelVoice::sendMessage(string ms)
+void ChannelText::sendMessage(string ms)
 {
     Message* newMessage = new Message(ms);
-    LastMessage = newMessage;
+    messages.push_back(newMessage);
 }
 
-void ChannelVoice::listMessages()
+void ChannelText::listMessages()
 {
-    if (LastMessage == NULL)
+    if (messages.empty())
     {
         cout << "\n-> Sem mensagens a serem exibidas!" << endl;
     }
     else
     {
-        cout << LastMessage->getEnviadapor() << "<" << LastMessage->getData_hora() << ">: " << LastMessage->getConteudo() << endl;
+        for (auto itr:messages)
+        {
+            cout << itr->getEnviadapor() << "<" << itr->getData_hora() << ">: " << itr->getConteudo();
+        }
     }
+    
 }
 
-void ChannelVoice::initChannel(string nc)
+void ChannelText::initChannel(string nc)
 {
     cout << "\n-> Entrou no canal \'" << nc << "\'!" << endl;
                     
-    cout << "\n ############## CONCORDO - CANAIS DE VOZ ##############" << endl;
+    cout << "\n ############## CONCORDO - CANAIS DE TEXTO ##############" << endl;
     cout << "                   \'" << nc << "\'" << endl;
     cout << "\nDigite o comando desejado: \n"<< endl;
-    
     string comando;
     cin >> comando;
-    
+                    
     if (comando == "sendMessage")
     {
         string cont;
@@ -54,11 +56,11 @@ void ChannelVoice::initChannel(string nc)
     }
 }
 
-void ChannelVoice::setout(bool o)
+void ChannelText::setout(bool o)
 {
     out = o;
 }
-bool ChannelVoice::getout()
+bool ChannelText::getout()
 {
     return out;
 }

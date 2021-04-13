@@ -103,12 +103,14 @@ void Server::createChannel(string nc, string tp)
         {
             ChannelVoice* newChannelvoice = new ChannelVoice(nc, tp);
             channels.push_back(newChannelvoice);
+            ChannelsVoice.push_back(newChannelvoice);
             cout << "\n-> Canal de Voz \'" << nc << "\' criado!" << endl;
         }
         else if (tp == "texto")
         {
             ChannelText* newChanneltext = new ChannelText(nc, tp);
             channels.push_back(newChanneltext);
+            ChannelsText.push_back(newChanneltext);
             cout << "\n-> Canal de texto \'" << nc << "\' criado!" << endl;
         }
     }
@@ -122,12 +124,14 @@ void Server::createChannel(string nc, string tp)
                 {
                     ChannelText* newChanneltext = new ChannelText(nc, tp);
                     channels.push_back(newChanneltext);
+                    ChannelsText.push_back(newChanneltext);
                     cout << "\n-> Canal de texto \'" << nc << "\' criado!" << endl;
                 }
                 else if (itr->getType() == "texto" && tp == "voz")
                 {
                     ChannelVoice* newChannelvoice = new ChannelVoice(nc, tp);
                     channels.push_back(newChannelvoice);
+                    ChannelsVoice.push_back(newChannelvoice);
                     cout << "\n-> Canal de Voz \'" << nc << "\' criado!" << endl;
                 }
                 else
@@ -143,12 +147,14 @@ void Server::createChannel(string nc, string tp)
         {
             ChannelVoice* newChannelvoice = new ChannelVoice(nc, tp);
             channels.push_back(newChannelvoice);
+            ChannelsVoice.push_back(newChannelvoice);
             cout << "\n-> Canal de Voz \'" << nc << "\' criado!" << endl;
         }
         else if (tp == "text o")
         {
             ChannelText* newChanneltext = new ChannelText(nc, tp);
             channels.push_back(newChanneltext);
+            ChannelsText.push_back(newChanneltext);
             cout << "\n-> Canal de texto \'" << nc << "\' criado!" << endl;
         }
     }
@@ -182,15 +188,34 @@ void Server::listChannel()
     }
 }
 
-void Server::enterChannel(string nc)
+void Server::enterChannel(string nc, string tp)
 {
     if (searchChannel(nc) == true)
     {
-        for (auto itr:channels)
+        if (tp == "texto")
         {
-            if (itr->getNamechannel() == nc)
+            for (auto itr:ChannelsText)
             {
-                Channel::channelLog = itr;
+                if (itr->getNamechannel() == nc)
+                {
+                    Channel::channelLog = itr;
+                    do
+                    {
+                        itr->initChannel(nc);
+                    } while (itr->getout() == true);
+                    
+                }
+            }
+        }
+        else if (tp == "voz")
+        {
+            for (auto itr:ChannelsVoice)
+            {
+                if (itr->getNamechannel() == nc)
+                {
+                    Channel::channelLog = itr;
+                    itr->initChannel(nc);
+                }
             }
         }
     }
@@ -214,6 +239,7 @@ void Server::initServer()
     {
         string channelname, channeltype;
         cin >> channelname >> channeltype;
+
         createChannel(channelname, channeltype);
     }
     else if (comando == "listChannel")
@@ -222,9 +248,10 @@ void Server::initServer()
     }
     else if (comando == "enterChannel")
     {
-        string channelname;
-        cin >> channelname;
-        enterChannel(channelname);
+        cout << "\nDigite o nome e o tipo: " << endl;
+        string channelname, channeltype;
+        cin >> channelname >> channeltype;
+        enterChannel(channelname, channeltype);
     }
     else if (comando == "leaveChannel")
     {

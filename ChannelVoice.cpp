@@ -1,4 +1,4 @@
-#include "channelvoice.h"
+#include "ChannelVoice.h"
 
 ChannelVoice::ChannelVoice(string nc, string tp) : Channel(nc, tp)
 {

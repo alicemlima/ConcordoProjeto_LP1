@@ -1,9 +1,23 @@
-// #ifndef CHANNEL_VOICE_H
-// #define CHANNEL_VOICE_H
+#ifndef CHANNEL_VOICE_H
+#define CHANNEL_VOICE_H
 
-// #include "channel.h"
+#include "channel.h"
 
-// channeltext.o: channeltext.cpp channeltext.h
-// 	g++ -c channeltext.cpp -ansi -pedantic -O0  -std=c++11 -g
+class ChannelText : public Channel
+{
+private:
+	std::vector<Message*> messages;
+	bool out;
+public:
+	ChannelText(string nc, string tp);
+	~ChannelText();
 
-// #endif
+	void sendMessage(string ms);
+	void listMessages();
+	void initChannel(string nc);
+
+	void setout(bool o);
+	bool getout();
+};
+
+#endif

@@ -1,8 +1,7 @@
-#ifndef CHANNEL_TEXT_H
-#define CHANNEL_TEXT_H
+#ifndef CHANNEL_VOICE_H
+#define CHANNEL_VOICE_H
 
 #include "channel.h"
-#include <vector>
 
 class ChannelVoice : public Channel
 {

@@ -21,7 +21,14 @@
 - [x] Entrar em um servidor 
 - [x] Sair do servidor
 - [x] Listar pessoas no servidor
-
+- [x]Criar um canal do servidor 
+- [x]Entrar em um canal 
+- [x]Sair do canal
+- [x]Criar um canal do servidor 
+- [x]Listar canais do servidor (de áudio ou texto) 
+- [x]Sair do canal
+- [x]Enviar mensagem para o canal 
+- [x]Visualizar mensagens do canal
 ### Rodando Plataforma Concordo
 
 # Acesse a pasta do arquivo "projeto_concordo"

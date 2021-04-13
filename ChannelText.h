@@ -4,14 +4,14 @@
 #include "channel.h"
 #include <vector>
 
-class ChannelVoice : public Channel
+class ChannelText : public Channel
 {
 private:
-	Message* LastMessage;
+	std::vector<Message*> messages;
 	bool out;
 public:
-	ChannelVoice(string nc, string tp);
-	~ChannelVoice();
+	ChannelText(string nc, string tp);
+	~ChannelText();
 
 	void sendMessage(string ms);
 	void listMessages();
@@ -20,5 +20,6 @@ public:
 	void setout(bool o);
 	bool getout();
 };
+
 
 #endif

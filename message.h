@@ -7,8 +7,8 @@ class Message
 {
 private:
 	string data_hora,
-	conteudo;
-	int enviadaPor;
+	conteudo,
+	enviadaPor;
 public:
 	Message(string ms);
 	~Message();
@@ -19,8 +19,8 @@ public:
 	string getConteudo();
 	void setconteudo(string ct);
 
-	int getEnviadapor();
-	void setEnviadapor(int id);
+	string getEnviadapor();
+	void setEnviadapor(string nome);
 
 	string systemTime();
 };

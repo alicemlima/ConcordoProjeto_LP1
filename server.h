@@ -2,7 +2,8 @@
 #define SERVER_H
 
 #include "channel.h"
-
+#include "channeltext.h"
+#include "channelvoice.h"
 #include <vector>
 
 class Server
@@ -15,6 +16,8 @@ private:
 	inviteCode; // Código necessário para se entrar no servidor
 	// Vetor de canais que já estão no servidor
 	std::vector<Channel*> channels;
+	std::vector<ChannelText*> ChannelsText;
+	std::vector<ChannelVoice*> ChannelsVoice;
 	// Vetor de IDs de usuários que já estão no servidor
 	std::vector<int> participantIDs;
 
@@ -53,7 +56,7 @@ public:
 	void listChannel();
 
 	// Entra em um canal do servidor
-	void enterChannel(string nc);
+	void enterChannel(string nc, string tp);
 
 	// Sair de um canal do servidor
 	void leaveChannel();

@@ -3,7 +3,7 @@
 Message::Message(string ms)
 {
     this->conteudo = ms;
-    this->enviadaPor = User::userLog->getId();
+    this->enviadaPor = User::userLog->getNome();
     this->data_hora = systemTime();
 }
 
@@ -27,13 +27,13 @@ void Message::setconteudo(string ct)
     conteudo = ct;
 }
 
-int Message::getEnviadapor()
+string Message::getEnviadapor()
 {
     return enviadaPor;
 }
-void Message::setEnviadapor(int id)
+void Message::setEnviadapor(string nome)
 {
-    enviadaPor = id;
+    enviadaPor = nome;
 }
 
 string Message::systemTime()
@@ -45,7 +45,7 @@ string Message::systemTime()
     time(&t);
     local=localtime(&t);
 
-    strftime(buffer,20,"< %D - %R >",local);
+    strftime(buffer,20,"%D - %R",local);
 
     string tmp_string(buffer);
 

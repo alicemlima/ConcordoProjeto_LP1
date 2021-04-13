@@ -18,5 +18,11 @@ enterServer
 Alice_casa
 nada
 createChannel
-Canal_Alice texto
-leaveChannel
+Canal_Alice voz
+enterChannel
+Canal_Alice voz
+sendMessage
+OLÁ_MUNDO!
+enterChannel
+Canal_Alice voz
+listMessages

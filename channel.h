@@ -13,6 +13,7 @@ protected:
 	string nameChannel;
 	string type;
 public:	
+	Channel();
 	Channel(string nc, string tp);
 	~Channel();
 
@@ -25,28 +26,37 @@ public:
 	void setType(string type);
 };
 
-class ChannelText : public Channel
-{
-private:
-	std::vector<Message*> messages;
-public:
-	ChannelText(string nc, string tp);
-	~ChannelText();
+// class ChannelText : public Channel
+// {
+// private:
+// 	std::vector<Message*> messages;
+// 	bool out;
+// public:
+// 	ChannelText(string nc, string tp);
+// 	~ChannelText();
 
-	void sendMessage(string ms);
-	void listMessages();
-};
+// 	void sendMessage(string ms);
+// 	void listMessages();
+// 	void initChannel(string nc);
 
-class ChannelVoice : public Channel
-{
-private:
-	Message* LastMessage;
-public:
-	ChannelVoice(string nc, string tp);
-	~ChannelVoice();
+// 	void setout(bool o);
+// 	bool getout();
+// };
 
-	void sendMessage(string ms);
-	void listMessages();
-};
+// class ChannelVoice : public Channel
+// {
+// private:
+// 	Message* LastMessage;
+// 	bool out;
+// public:
+// 	ChannelVoice(string nc, string tp);
+// 	~ChannelVoice();
 
+// 	void sendMessage(string ms);
+// 	void listMessages();
+// 	void initChannel(string nc);
+
+// 	void setout(bool o);
+// 	bool getout();
+// };
 #endif
