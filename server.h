@@ -2,8 +2,8 @@
 #define SERVER_H
 
 #include "channel.h"
-#include "channeltext.h"
-#include "channelvoice.h"
+#include "ChannelText.h"
+#include "ChannelVoice.h"
 #include <vector>
 
 class Server
