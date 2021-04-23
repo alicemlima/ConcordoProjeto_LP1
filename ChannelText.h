@@ -12,13 +12,13 @@ private:
 public:
 	ChannelText(string nc, string tp);
 	~ChannelText();
-
+	std::vector <Message*> getMessages();
 	void sendMessage(string ms);
 	void listMessages();
 	void initChannel(string nc);
 
-	void setout(bool o);
-	bool getout();
+	void leaveChannel(bool o);
+	bool getOut();
 };
 
 

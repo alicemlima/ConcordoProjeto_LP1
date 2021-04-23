@@ -13,6 +13,12 @@ void ChannelText::sendMessage(string ms)
     messages.push_back(newMessage);
 }
 
+//Retorna o vector messages
+std::vector <Message*> ChannelText::getMessages()
+{
+    return messages;
+}
+
 void ChannelText::listMessages()
 {
     if (messages.empty())
@@ -50,17 +56,20 @@ void ChannelText::initChannel(string nc)
     {
         listMessages();
     }
-    else if (comando == "out")
+    else if (comando == "leaveChannel")
     {
-        setout(false);
+        leaveChannel(false);
     }
 }
 
-void ChannelText::setout(bool o)
+void ChannelText::leaveChannel(bool o)
 {
     out = o;
+    Channel::channelLog = NULL;
+    cout << "Saindo do canal \'" << this->getNamechannel() << "\'!" << endl;
 }
-bool ChannelText::getout()
+
+bool ChannelText::getOut()
 {
     return out;
 }

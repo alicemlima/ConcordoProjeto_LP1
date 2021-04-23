@@ -3,22 +3,27 @@
 System::System()
 {
 	cout << "\nOlá!! Seja bem vindo(a) ao Concordo." << endl;
-	this->userCurrent = NULL;
-	this->serverCurrent = NULL;
+	this->userCurrent =  User::userLog;
+	this->serverCurrent = Server::serverLog;
 	this->channelCurrent = Channel::channelLog;
 	this->on = true;
 }
 
+// Muda o estado do servidor para não funcionando
 void System::setOn()
 {
 	on = false;
 }
-
+// Sinaliza se o servidor está funcionando ou não
 bool System::getOn()
 {
 	return on;
 }
 
+// Comandos do sistema - assim que entrar no sistema
+	
+// Comando para entrar do sistema
+// Espécie de menu que sinaliza opções
 void System::init()
 {
 	cout << "\n ############## CONCORDO - LOGIN ##############" << endl;
@@ -55,12 +60,18 @@ void System::init()
 	}
 }
 
+// Comando para sair do sistema
+// Chama a função setOn para fechar o sistema
 void System::quit()
 {
 	cout << "-> Saindo do Concordo!" << endl;
 	setOn();
 }
 
+// Comando para criar usuário, caso ele não exista, retorna true
+// Adiciona o novo usuário no vector usersVec, adiciona o par login senha no dicionário
+// muda o ID do usuário
+// Caso contrário, retorna falso
 bool System::createUser(string e, string s, string n)
 {
 	if (searchUser(n) == true)
@@ -80,6 +91,11 @@ bool System::createUser(string e, string s, string n)
 	return true;
 }
 
+// Comando para entrar/logar no sistema
+// Verifica se dados informados estão corretos
+// Em caso positivo, muda o usuário para logado = true
+// o usuário atual e a variável global para o que foi informado e retorna true
+// Caso contrário, retorna falso
 bool System::login(string e, string s)
 {
 	for (auto itr:login_senha)
@@ -104,6 +120,8 @@ bool System::login(string e, string s)
 	return false;
 }
 
+// Verifica se um usuário existe, caso positivo retorna true
+// Caso negativo, retorna falso
 bool System::searchUser(string n)
 {
 	for (auto itr:usersVec)
@@ -116,12 +134,9 @@ bool System::searchUser(string n)
 	return false;
 }
 
+// Inicia o loop para comando quando o usuário está logado
 void System::logado()
-{
-	// cout << "\n ############## CONCORDO - HOME ##############" << endl;
-	// cout << " - createServer\n - enterServer\n - listServers\n - disconnect" << endl;
-	// cout << "\nDigite o comando desejado: \n"<< endl;
-	string comando_2;
+{	string comando_2;
 	cin >> comando_2;
 
 	if (comando_2 == "createServer")
@@ -166,23 +181,55 @@ void System::logado()
 
 		setServer_invite_code(nomeServer, code);
 	}
-	else if (comando_2 == "leaveServer")
-	{
-		leaveServer();
-	}
 	else if (comando_2 == "listUsers")
 	{
 		listUsers();
 	}
+	else if (comando_2 ==  "salvar")
+	{
+		salvar();
+	}
 }
 
- void System::disconnect()
+// Comandos dos servidores - se estiver logado
+
+// Listar servidores
+// Lista servidores - retorna o nome do servido, a descrição e se é aberto ou fechado
+void System::listServers()
+{
+	if (serversVec.empty())
+	{
+		cout << "Você não possui servidores disponíveis" << endl;
+	}
+	else
+	{
+		cout << "\n############## SEUS SERVIDORES ##############\n" << endl;
+		for (auto itr:serversVec)
+		{
+			cout << "-> " << itr->getNameserver() << endl;
+			cout << itr->getDescript() << endl;
+			if (itr->getInvitecode() == "")
+			{
+				cout << "Servidor aberto" << endl;
+			}
+			else
+			{
+				cout << "Servidor fechado" << endl;
+			}
+			cout << "\n";
+		}
+	}
+}
+
+// Comando desconectar/sair do servidor
+void System::disconnect()
 {
 	cout << "\n-> " << userCurrent->getNome() << " saiu!" << endl;
     User::userLog = NULL;
 	userCurrent->setLogado(false);
 }
 
+// Comando criar servidor
 /* cria um novo servidor, adiciona o novo servidor no vector
  e modifica o servidor que está sendo visualizado para o que criamos */
 void System::createServer(string ns)
@@ -201,6 +248,7 @@ void System::createServer(string ns)
 	}
 }
 
+// Comando entrar em um servidor
 void System::enterServer(string ns)
 {
 	if (searchServer(ns)->getNameserver() == ns)
@@ -210,20 +258,27 @@ void System::enterServer(string ns)
 		{
 			aux->addUser(userCurrent->getId());
 			serverCurrent = aux;
+			Server::serverLog = aux;
 			cout << "-> Entrou no servidor \'" << serverCurrent->getNameserver() << "\' com sucesso!" << endl;
-			do
+			while (Server::serverLog != NULL)
 			{
 				serverCurrent->initServer();
-			} while (serverCurrent->getNameserver() == ns);
+			}
+			cout << serverCurrent->getNameserver() << endl;
+			serverCurrent->removeUser(User::userLog->getId());
+			serverCurrent = NULL;
+			init();
+			
 		}
 		else if (aux->getUsuariodonoid() == User::userLog->getId())
 		{
 			serverCurrent = aux;
+			Server::serverLog = aux;
 			cout << "-> Entrou no servidor \'" << serverCurrent->getNameserver() << "\' com sucesso!" << endl;
 			do
 			{
-				
-			} while (serverCurrent->getNameserver() == ns);
+				serverCurrent->initServer();
+			} while (Server::serverLog->getNameserver() == ns);
 		}
 		else
 		{
@@ -236,6 +291,7 @@ void System::enterServer(string ns)
 	}
 }
 
+// Entrar em um servidor - sobrecarga de operadores
 void System::enterServer(string ns, string code)
 {
 	if (searchServer(ns)->getNameserver() == ns)
@@ -283,6 +339,7 @@ Server* System::searchServer(string ns)
 	return 	NULL;
 }
 
+
 void System::setServer_desc(string ns, string d)
 {
 	if (searchServer(ns)->getNameserver() == ns)
@@ -304,6 +361,7 @@ void System::setServer_desc(string ns, string d)
 	}
 }
 
+// Mudar o código de convite para o servidor
 void System::setServer_invite_code(string ns, string code)
 {
 	if (searchServer(ns)->getNameserver() == ns)
@@ -325,6 +383,7 @@ void System::setServer_invite_code(string ns, string code)
 	}
 }
 
+// Mudar o código de convite para o servidor - com sobrecarga de operadores
 void System::setServer_invite_code(string ns)
 {
 	if (searchServer(ns)->getNameserver() == ns)
@@ -346,33 +405,7 @@ void System::setServer_invite_code(string ns)
 	}
 }
 
-// Lista servidores - retorna o nome do servido, a descrição e se é aberto ou fechado
-void System::listServers()
-{
-	if (serversVec.empty())
-	{
-		cout << "Você não possui servidores disponíveis" << endl;
-	}
-	else
-	{
-		cout << "\n############## SEUS SERVIDORES ##############\n" << endl;
-		for (auto itr:serversVec)
-		{
-			cout << "-> " << itr->getNameserver() << endl;
-			cout << itr->getDescript() << endl;
-			if (itr->getInvitecode() == "")
-			{
-				cout << "Servidor aberto" << endl;
-			}
-			else
-			{
-				cout << "Servidor fechado" << endl;
-			}
-			cout << "\n";
-		}
-	}
-}
-
+// Remover Servidor
 void System::removeServer(string ns)
 {
 	if (searchServer(ns)->getNameserver() == ns)
@@ -402,17 +435,19 @@ void System::removeServer(string ns)
 	}	
 }
 
-void System::leaveServer()
-{
-	cout << "-> Saindo do servidor \'" << serverCurrent->getNameserver() << "\'!" << endl;
-	serverCurrent->removeUser(User::userLog->getId());
-	serverCurrent = NULL;
-}
+// Sair de um serividor
+// void System::leaveServer()
+// {
+// 	cout << "-> Saindo do servidor \'" << serverCurrent->getNameserver() << "\'!" << endl;
+// 	serverCurrent->removeUser(User::userLog->getId());
+// 	serverCurrent = NULL;
+// }
 
+// Listar pessoas no servidor 
 void System::listUsers()
 {
 	std::vector <int> aux_vec;
-	aux_vec = serverCurrent->listParticipants();
+	aux_vec = serverCurrent->getParticipants();
 	for (auto itr:aux_vec)
 	{
 		for (auto itr_2:usersVec)
@@ -425,8 +460,79 @@ void System::listUsers()
 	}
 }
 
-// void System::serverRun()
-// {
-// 	cout << "-> Entrou no serverRun!" << endl;
-// 	serverCurrent->initServer();
-// }
+// Salva as informações do usuário
+void System::salvarUsuario()
+{
+	usuarios.open("usuarios.txt", ios::app);
+	usuarios << usersVec.size();
+	for (auto itr:usersVec)
+	{
+		usuarios << itr->getId() << endl;
+		usuarios << itr->getNome() << endl;
+		usuarios << itr->getEmail() << endl;
+		usuarios << itr->getSenha() << endl;
+	}
+	usuarios.close();
+}
+
+// Salva informações sobre os servidores
+void System::salvarServidores()
+{
+	servidores.open("servidores.txt", ios::app);
+	servidores << serversVec.size() << endl;
+	for (auto itr:serversVec)
+	{
+		servidores << itr->getUsuariodonoid() << endl;
+		servidores << itr->getNameserver() << endl;
+		servidores << itr->getDescript() << endl;
+		servidores << itr->getInvitecode() << endl;	
+		servidores << itr->getParticipants().size() << endl;	
+		for (auto itrParticipants:itr->getParticipants())
+		{
+			servidores << itrParticipants << endl;
+		}
+		servidores << itr->getChannels().size() << endl;	
+		for (auto itrCanal:itr->getChannels())
+		{
+			servidores << itrCanal->getNamechannel() << endl;
+			servidores << itrCanal->getType() << endl;
+			if (itrCanal->getType() == "voz")
+			{
+				for (auto itrCanalVoice:itr->getChannelVoice())
+				{
+					if (itrCanalVoice->getNamechannel() == itrCanal->getNamechannel())
+					{
+						servidores << 1;
+						servidores << itrCanalVoice->getMessages()->getEnviadapor() << endl;
+						servidores << itrCanalVoice->getMessages()->getData_hora() << endl;
+						servidores << itrCanalVoice->getMessages()->getConteudo() << endl;
+					}
+				}
+				servidores << itr->getChannelVoice().size() << endl;
+			}
+			else if (itrCanal->getType() == "texto")
+			{
+				for (auto itrCanalTexto:itr->getChannelText())
+				{
+					if (itrCanalTexto->getNamechannel() == itrCanal->getNamechannel())
+					{
+						servidores << itrCanalTexto->getMessages().size() << endl;
+						for (auto itrMessages:itrCanalTexto->getMessages())
+						{
+							servidores << itrMessages->getEnviadapor() << endl;
+							servidores << itrMessages->getData_hora() << endl;
+							servidores << itrMessages->getConteudo() << endl;
+						}
+					}
+				}
+			}			
+		}
+	}
+	servidores.close();
+}
+
+void System::salvar()
+{
+	salvarUsuario();
+	salvarServidores();
+}

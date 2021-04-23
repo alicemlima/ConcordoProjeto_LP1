@@ -26,3 +26,6 @@ OLÁ_MUNDO!
 enterChannel
 Canal_Alice voz
 listMessages
+leaveChannel
+leaveServer
+quit

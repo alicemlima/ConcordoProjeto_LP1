@@ -11,13 +11,13 @@ private:
 public:
 	ChannelVoice(string nc, string tp);
 	~ChannelVoice();
-
+	Message* getMessages();
 	void sendMessage(string ms);
 	void listMessages();
 	void initChannel(string nc);
 
-	void setout(bool o);
-	bool getout();
+	void leaveChannel(bool o);
+	bool getOut();
 };
 
 #endif

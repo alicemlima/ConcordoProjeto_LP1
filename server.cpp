@@ -10,6 +10,7 @@ Server::Server(string ns)
 }
 
 // Retorna o ID do usuário dono do servidor
+// O usuário dono só é alteradorado na sua criação, não necessitando de uma função set
 int Server::getUsuariodonoid()
 {
     return usuarioDonoId;
@@ -72,17 +73,39 @@ void Server::removeUser(int id)
 	{
 		if (participantIDs[i] == id)
 		{
+            cout << participantIDs[i] << endl;
 			participantIDs.erase(participantIDs.begin() + i);
+            break;
 		}
 	}
 }
 
+// Retorna o vector Channels
+std::vector <Channel*> Server::getChannels()
+{
+    return channels;
+}
+
+// Retorna o vector ChannelsText
+std::vector <ChannelText*> Server::getChannelText()
+{
+    return ChannelsText;
+}
+
+// Retorna o vector ChannelsVoice
+std::vector <ChannelVoice*> Server::getChannelVoice()
+{
+    return ChannelsVoice;
+}
+
 // Retorna o vector participantIDs para serem chamadados e listados no arquivo system.cpp
-std::vector <int> Server::listParticipants()
+std::vector <int> Server::getParticipants()
 {
     return participantIDs;
 }
 
+// Comando dos Canais
+// Pocurar canais - se existir = true e se não existir = false
 bool Server::searchChannel(string nc)
 {
     for (auto itr:channels)
@@ -95,6 +118,7 @@ bool Server::searchChannel(string nc)
     return false;
 }
 
+// Criar canais - parâmetros: nome e tipo
 void Server::createChannel(string nc, string tp)
 {
     if (channels.empty())
@@ -160,6 +184,7 @@ void Server::createChannel(string nc, string tp)
     }
 }
 
+// Listar Canais do servidor
 void Server::listChannel()
 {
     if (channels.empty())
@@ -188,6 +213,7 @@ void Server::listChannel()
     }
 }
 
+// Entra em um canal do servidor
 void Server::enterChannel(string nc, string tp)
 {
     if (searchChannel(nc) == true)
@@ -202,7 +228,7 @@ void Server::enterChannel(string nc, string tp)
                     do
                     {
                         itr->initChannel(nc);
-                    } while (itr->getout() == true);
+                    } while (itr->getOut() == true);
                     
                 }
             }
@@ -225,12 +251,14 @@ void Server::enterChannel(string nc, string tp)
     }
 }
 
-void Server::leaveChannel()
+// Sair de um canal do servidor
+void Server::leaveServer()
 {
-    Channel::channelLog = NULL;
-    cout << "Saindo do canal \'" << this->getNameserver() << "\'!" << endl;
+    Server::serverLog = NULL;
+    cout << "Saindo do Servidor \'" << this->getNameserver() << "\'!" << endl;
 }
 
+// Menu para comando do servidor
 void Server::initServer()
 {
     string comando;
@@ -253,8 +281,8 @@ void Server::initServer()
         cin >> channelname >> channeltype;
         enterChannel(channelname, channeltype);
     }
-    else if (comando == "leaveChannel")
+    else if (comando == "leaveServer")
     {
-        leaveChannel();
+        leaveServer();
     }
 }

@@ -14,6 +14,11 @@ void ChannelVoice::sendMessage(string ms)
     LastMessage = newMessage;
 }
 
+Message* ChannelVoice::getMessages()
+{
+    return LastMessage;
+}
+
 void ChannelVoice::listMessages()
 {
     if (LastMessage == NULL)
@@ -48,17 +53,20 @@ void ChannelVoice::initChannel(string nc)
     {
         listMessages();
     }
-    else if (comando == "out")
+    else if (comando == "leaveChannel")
     {
-        setout(false);
+        leaveChannel(false);
     }
 }
 
-void ChannelVoice::setout(bool o)
+void ChannelVoice::leaveChannel(bool o)
 {
     out = o;
+    Channel::channelLog = NULL;
+    cout << "Saindo do canal \'" << this->getNamechannel() << "\'!" << endl;
 }
-bool ChannelVoice::getout()
+
+bool ChannelVoice::getOut()
 {
     return out;
 }
