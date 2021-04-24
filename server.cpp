@@ -73,7 +73,6 @@ void Server::removeUser(int id)
 	{
 		if (participantIDs[i] == id)
 		{
-            cout << participantIDs[i] << endl;
 			participantIDs.erase(participantIDs.begin() + i);
             break;
 		}
@@ -255,7 +254,7 @@ void Server::enterChannel(string nc, string tp)
 void Server::leaveServer()
 {
     Server::serverLog = NULL;
-    cout << "Saindo do Servidor \'" << this->getNameserver() << "\'!" << endl;
+    cout << "\n-> Saindo do Servidor \'" << this->getNameserver() << "\'!" << endl;
 }
 
 // Menu para comando do servidor

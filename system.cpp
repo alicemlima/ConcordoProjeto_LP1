@@ -185,8 +185,9 @@ void System::logado()
 	{
 		listUsers();
 	}
-	else if (comando_2 ==  "salvar")
+	else if (comando_2 == "salvar")
 	{
+		cout << "TESTE 1" << endl;
 		salvar();
 	}
 }
@@ -264,21 +265,21 @@ void System::enterServer(string ns)
 			{
 				serverCurrent->initServer();
 			}
-			cout << serverCurrent->getNameserver() << endl;
 			serverCurrent->removeUser(User::userLog->getId());
 			serverCurrent = NULL;
-			init();
-			
+			cout << "TESTE 3!!!!" << endl;
 		}
 		else if (aux->getUsuariodonoid() == User::userLog->getId())
 		{
 			serverCurrent = aux;
 			Server::serverLog = aux;
 			cout << "-> Entrou no servidor \'" << serverCurrent->getNameserver() << "\' com sucesso!" << endl;
-			do
+			while (Server::serverLog->getNameserver() == ns)
 			{
 				serverCurrent->initServer();
-			} while (Server::serverLog->getNameserver() == ns);
+			}
+			serverCurrent->removeUser(User::userLog->getId());
+			serverCurrent = NULL;
 		}
 		else
 		{
@@ -435,14 +436,6 @@ void System::removeServer(string ns)
 	}	
 }
 
-// Sair de um serividor
-// void System::leaveServer()
-// {
-// 	cout << "-> Saindo do servidor \'" << serverCurrent->getNameserver() << "\'!" << endl;
-// 	serverCurrent->removeUser(User::userLog->getId());
-// 	serverCurrent = NULL;
-// }
-
 // Listar pessoas no servidor 
 void System::listUsers()
 {
@@ -464,7 +457,7 @@ void System::listUsers()
 void System::salvarUsuario()
 {
 	usuarios.open("usuarios.txt", ios::app);
-	usuarios << usersVec.size();
+	usuarios << usersVec.size() << endl;
 	for (auto itr:usersVec)
 	{
 		usuarios << itr->getId() << endl;
@@ -502,7 +495,7 @@ void System::salvarServidores()
 				{
 					if (itrCanalVoice->getNamechannel() == itrCanal->getNamechannel())
 					{
-						servidores << 1;
+						servidores << 1 << endl;
 						servidores << itrCanalVoice->getMessages()->getEnviadapor() << endl;
 						servidores << itrCanalVoice->getMessages()->getData_hora() << endl;
 						servidores << itrCanalVoice->getMessages()->getConteudo() << endl;
@@ -533,6 +526,7 @@ void System::salvarServidores()
 
 void System::salvar()
 {
+	cout << "TESTE 1" << endl;
 	salvarUsuario();
 	salvarServidores();
 }
