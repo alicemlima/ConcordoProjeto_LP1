@@ -27,9 +27,11 @@ private:
 	Channel* channelCurrent;
 	void salvarUsuario();
 	void salvarServidores();
+	void carregarUsuarios();
+	void carregarServidores();
 	// Arquivo para salvar informações do servidor
-	ofstream servidores;
-	ofstream usuarios;
+	fstream servidores;
+	fstream usuarios;
 public:
 	System();
 	~System();
@@ -52,9 +54,9 @@ public:
 	void setServer_invite_code(string ns, string code);
 	void setServer_invite_code(string ns);
 	void removeServer(string ns);
-	// void leaveServer();
 	void listUsers();
 	void salvar();
+	void carregar();
 };
 
 #endif

@@ -15,6 +15,10 @@ int Server::getUsuariodonoid()
 {
     return usuarioDonoId;
 }
+void Server::setUsuariodonoid(int ud)
+{
+    usuarioDonoId = ud;
+}
 
 //Métodos getter e setter dos atributos da classe Server
 string Server::getNameserver()
@@ -173,7 +177,7 @@ void Server::createChannel(string nc, string tp)
             ChannelsVoice.push_back(newChannelvoice);
             cout << "\n-> Canal de Voz \'" << nc << "\' criado!" << endl;
         }
-        else if (tp == "text o")
+        else if (tp == "text")
         {
             ChannelText* newChanneltext = new ChannelText(nc, tp);
             channels.push_back(newChanneltext);

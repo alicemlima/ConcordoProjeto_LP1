@@ -26,9 +26,6 @@ bool System::getOn()
 // Espécie de menu que sinaliza opções
 void System::init()
 {
-	cout << "\n ############## CONCORDO - LOGIN ##############" << endl;
-	cout << " - createUser \n - login \n - quit" << endl;
-	cout << "\nDigite o comando desejado: \n"<< endl;
 	string e, s, n, comando;
 	cin >> comando;
 	if (comando == "createUser")
@@ -57,6 +54,10 @@ void System::init()
 	else if (comando == "quit")
 	{
 		quit();
+	}
+	else if (comando == "carregar")
+	{
+		carregar();
 	}
 }
 
@@ -187,7 +188,6 @@ void System::logado()
 	}
 	else if (comando_2 == "salvar")
 	{
-		cout << "TESTE 1" << endl;
 		salvar();
 	}
 }
@@ -237,7 +237,8 @@ void System::createServer(string ns)
 {
 	if (searchServer(ns) == NULL)
 	{
-		Server* newServer = new Server(ns);
+		Server* newServer;
+		newServer = new Server(ns);
 		serversVec.push_back(newServer);
 		serverCurrent = newServer;
 		
@@ -267,7 +268,6 @@ void System::enterServer(string ns)
 			}
 			serverCurrent->removeUser(User::userLog->getId());
 			serverCurrent = NULL;
-			cout << "TESTE 3!!!!" << endl;
 		}
 		else if (aux->getUsuariodonoid() == User::userLog->getId())
 		{
@@ -439,15 +439,22 @@ void System::removeServer(string ns)
 // Listar pessoas no servidor 
 void System::listUsers()
 {
-	std::vector <int> aux_vec;
-	aux_vec = serverCurrent->getParticipants();
-	for (auto itr:aux_vec)
+	if (serverCurrent->getParticipants().empty())
 	{
-		for (auto itr_2:usersVec)
+		cout << "Este servidor ainda não possui usuários" << endl;
+	}
+	else
+	{
+		std::vector <int> aux_vec;
+		aux_vec = serverCurrent->getParticipants();
+		for (auto itr:aux_vec)
 		{
-			if (itr == itr_2->getId())
+			for (auto itr_2:usersVec)
 			{
-				cout << itr_2->getNome() << endl;
+				if (itr == itr_2->getId())
+				{
+					cout << itr_2->getNome() << endl;
+				}
 			}
 		}
 	}
@@ -456,7 +463,7 @@ void System::listUsers()
 // Salva as informações do usuário
 void System::salvarUsuario()
 {
-	usuarios.open("usuarios.txt", ios::app);
+	usuarios.open("usuarios.txt", ios::out|ios::app);
 	usuarios << usersVec.size() << endl;
 	for (auto itr:usersVec)
 	{
@@ -471,7 +478,7 @@ void System::salvarUsuario()
 // Salva informações sobre os servidores
 void System::salvarServidores()
 {
-	servidores.open("servidores.txt", ios::app);
+	servidores.open("servidores.txt", ios::out|ios::app);
 	servidores << serversVec.size() << endl;
 	for (auto itr:serversVec)
 	{
@@ -501,7 +508,6 @@ void System::salvarServidores()
 						servidores << itrCanalVoice->getMessages()->getConteudo() << endl;
 					}
 				}
-				servidores << itr->getChannelVoice().size() << endl;
 			}
 			else if (itrCanal->getType() == "texto")
 			{
@@ -526,7 +532,167 @@ void System::salvarServidores()
 
 void System::salvar()
 {
-	cout << "TESTE 1" << endl;
 	salvarUsuario();
 	salvarServidores();
+}
+
+void System::carregarUsuarios()
+{
+	usuarios.open("usuarios.txt", ios::in);
+	string line;
+	int number;
+	if (usuarios.is_open())
+	{
+		getline(usuarios, line);
+		number = std::stoi(line);
+
+		for (int i = 0; i < number; i++)
+		{
+			string n, e, s, id;
+			getline(usuarios, line);
+			id = line;
+			getline(usuarios, line);
+			n = line;
+			getline(usuarios, line);
+			e = line;
+			getline(usuarios, line);
+			s = line;
+
+			User* newUser = new User(e, s, n);
+			usersVec.push_back(newUser);
+			login_senha.insert(pair<string,string>(e, s));
+			newUser->setId(std::stoi(id));
+			cout << "\n-> Usuário \'" << n << "\' criado!" <<  endl;
+		}
+	}
+	else
+	{
+		cout << "Não foi possível abrir o arquivo!" << endl;
+	}
+}
+
+void System::carregarServidores()
+{
+	servidores.open("servidores.txt", ios::in);
+	string line;
+	int count;
+	if (servidores.is_open())
+	{
+		getline(servidores, line);
+		count = std::stoi(line);
+		for (int i = 0; i < count; i++)
+		{
+			string ns, id, ud, dp, ic;
+			getline(servidores, line);
+			ud = line;
+
+			getline(servidores, line);
+			ns = line;
+
+			getline(servidores, line);
+			dp = line;
+
+			getline(servidores, line);
+			ic = line;
+
+			for (auto itrUsers:usersVec)
+			{
+				if (itrUsers->getId() == std::stoi(ud))
+				{
+					User::userLog = itrUsers;
+					createServer(ns);
+				}
+			}
+			for (auto itrServer:serversVec)
+			{
+				if (itrServer->getNameserver() == ns)
+				{
+					itrServer->setUsuariodonoid(std::stoi(ud));
+					itrServer->setDescript(dp);
+					itrServer->setInvitecode(ic);
+
+					getline(servidores, line);
+		
+					int countUsers = std::stoi(line);
+					for (int j = 0; j < countUsers; j++)
+					{
+						getline(servidores, line);
+			
+						int idUser = std::stoi(line);
+						itrServer->addUser(idUser);
+					}
+
+					getline(servidores, line);
+		
+					int countCanais = std::stoi(line);
+					for (int j = 0; j < countCanais; j++)
+					{
+						string nc, tp;
+						getline(servidores, line);
+						nc = line;
+						getline(servidores, line);
+						tp = line;			
+						itrServer->createChannel(nc, tp);
+						
+						getline(servidores, line);
+						int countMens = std::stoi(line);
+						for (int j = 0; j < countMens; j++)
+						{
+							string id, dh, ms;
+							getline(servidores, line);
+				
+							id = line;
+							getline(servidores, line);
+				
+							dh = line;
+							getline(servidores, line);
+				
+							ms = line;
+		
+							if (tp == "voz")
+							{
+								for (auto itrChannelVoice:itrServer->getChannelVoice())
+								{
+									if(itrChannelVoice->getNamechannel() == nc)
+									{
+										itrChannelVoice->sendMessage(ms);
+										itrChannelVoice->getMessages()->setData_hora(dh);
+										itrChannelVoice->getMessages()->setEnviadapor(id);
+									}
+								}
+							}
+							else if (tp == "texto")
+							{
+								for (auto itrChannelText:itrServer->getChannelText())
+								{
+									if (itrChannelText->getNamechannel() == nc)
+									{
+										itrChannelText->sendMessage(ms);
+										for (auto itrMessage:itrChannelText->getMessages())
+										{
+											if (itrMessage->getConteudo() == ms)
+											{
+												itrMessage->setData_hora(dh);
+												itrMessage->setEnviadapor(id);
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		cout << "Não foi possível abrir o arquivo!" << endl;
+	}
+}
+
+void System::carregar()
+{
+	carregarUsuarios();
+	carregarServidores();
 }

@@ -12,6 +12,7 @@ void ChannelVoice::sendMessage(string ms)
 {
     Message* newMessage = new Message(ms);
     LastMessage = newMessage;
+    cout << "-> mensagem \'"<< ms <<"\' enviada com sucesso!" << endl;
 }
 
 Message* ChannelVoice::getMessages()

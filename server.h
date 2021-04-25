@@ -26,6 +26,7 @@ public:
 	~Server();
 	static Server* serverLog;
 	int getUsuariodonoid();
+	void setUsuariodonoid(int ud);
 	string getNameserver();
 	void setNameserver(string ns);
 	string getDescript();

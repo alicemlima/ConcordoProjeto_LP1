@@ -11,6 +11,7 @@ void ChannelText::sendMessage(string ms)
 {
     Message* newMessage = new Message(ms);
     messages.push_back(newMessage);
+    cout << "-> mensagem \'"<< ms <<"\' enviada com sucesso!" << endl;
 }
 
 //Retorna o vector messages
